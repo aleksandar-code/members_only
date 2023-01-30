@@ -11,9 +11,9 @@ class PostsController < ApplicationController
 
 
   def create
-      @user = User.new(user_params)
-
-      if @user.save
+      @post = Post.new(post_params)
+      @post.user_id = session[:user_id]
+      if @post.save
       redirect_to root_path
       else
       render :new
@@ -22,7 +22,7 @@ class PostsController < ApplicationController
 
   private
   
-  def user_params
-      params.require(:user).permit(:username, :email, :password)
+  def post_params
+      params.require(:post).permit(:title, :body)
   end
 end

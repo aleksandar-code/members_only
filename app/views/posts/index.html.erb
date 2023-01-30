@@ -6,6 +6,9 @@
   <% @posts.each do |post| %>
     <%= render post %>
     <p>
+      <%= post.user_id %>
+    </p>
+    <p>
       <%= link_to "Show this post", post %>
     </p>
   <% end %>

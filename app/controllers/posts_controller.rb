@@ -1,8 +1,16 @@
 class PostsController < ApplicationController
   before_action :require_login, only: [:new, :create]
+
+  def require_login
+    unless signed_in?
+      redirect_to new_member_session_url
+    end
+  end
+
   
   def index
       @posts = Post.all
+      @signed_in_user = session[:user_id]
   end
   
   def new
@@ -12,9 +20,9 @@ class PostsController < ApplicationController
 
   def create
       @post = Post.new(post_params)
-      @post.user_id = session[:user_id]
+      @post.member = @signed_in_user
       if @post.save
-      redirect_to root_path
+      redirect_to :root
       else
       render :new
       end

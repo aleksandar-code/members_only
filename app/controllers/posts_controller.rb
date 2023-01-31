@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :require_login, only: [:new, :create]
 
   def require_login
-    unless signed_in?
+    unless member_signed_in?
       redirect_to new_member_session_url
     end
   end
@@ -10,7 +10,6 @@ class PostsController < ApplicationController
   
   def index
       @posts = Post.all
-      @signed_in_user = session[:user_id]
   end
   
   def new
@@ -20,7 +19,7 @@ class PostsController < ApplicationController
 
   def create
       @post = Post.new(post_params)
-      @post.member = @signed_in_user
+      @post.member = current_member
       if @post.save
       redirect_to :root
       else
@@ -31,6 +30,6 @@ class PostsController < ApplicationController
   private
   
   def post_params
-      params.require(:post).permit(:title, :body)
+      params.require(:post).permit(:title, :body, :member)
   end
 end

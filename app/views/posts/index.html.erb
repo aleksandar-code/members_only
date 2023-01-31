@@ -4,13 +4,18 @@
 
 <div id="posts">
   <% @posts.each do |post| %>
-    <%= render post %>
     <p>
-      <%= post.user_id %>
+    <strong>Post:</strong>
+      <%= post.title %>
     </p>
+
     <p>
-      <%= link_to "Show this post", post %>
+      <%= post.body %>
     </p>
+
+    <% if member_signed_in? %>
+      <%= post.member.email %>
+    <% end %>
   <% end %>
 </div>
 
